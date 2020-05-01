@@ -16,6 +16,9 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
  * Author: Stefano Avallone <stavallo@unina.it>
+
+
+
  */
 
 #ifndef RR_OFDMA_MANAGER_H
@@ -198,7 +201,7 @@ std::vector<std::vector<int> > RU40{
 InterferenceHelper m_interference;
  //WifiPhy powww; 
 
-
+//Reshan
 
 //const YansWifiPhy powww;  
 WifiSpectrumBand GetBand (uint16_t bandWidth, uint8_t bandIndex = 0);
