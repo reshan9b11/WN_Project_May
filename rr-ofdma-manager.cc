@@ -351,9 +351,9 @@ RrOfdmaManager::SelectTxFormat (Ptr<const WifiMacQueueItem> mpdu)
   const std::map<uint16_t, Mac48Address>& staList = m_apMac->GetStaList ();
   auto startIt = staList.find (m_startStation);
 
-std::cout<<"SelectTxFormat: sta list size"<<staList.size()<<"\n";
-std::cout<<"SelectTxFormat: start station"<<m_startStation<<"\n";
-std::cout<<"SelectTxFormat: total station"<<m_nStations<<"\n";
+std::cout<<"\n SelectTxFormat: sta list size"<<staList.size();
+std::cout<<"\nSelectTxFormat: start station"<<m_startStation;
+std::cout<<"\n SelectTxFormat: total station"<<m_nStations;
 
   // This may be the first invocation or the starting station left
   if (startIt == staList.end ())
@@ -442,7 +442,7 @@ dataStaPair1.clear();
 v_QosType.clear();
 v_powerLevel.clear();
 v_dataStaPair.clear();
-finalStaPairIndex.clear();
+//finalStaPairIndex.clear();
 
 
   do
@@ -692,7 +692,7 @@ switch(number_of_clients){
   case 2:
   RuSet.push_back(106);
   RuSet.push_back(106);
- // RuSet.push_back(26);
+  ///RuSet.push_back(26);
   return RuSet;
 
   case 3:
@@ -747,12 +747,17 @@ case 6:
   return RuSet;
 
 
-  default:
+  case 9:
  for(int i=0;i<9;i++){
   RuSet.push_back(26);
  }
 return RuSet;
 
+default:
+  for(int i=0;i<9;i++){
+  RuSet.push_back(26);
+ }
+ return RuSet;
 }
 
 }
@@ -789,7 +794,7 @@ for(int i=0;i<count;i++){
 }
 
 
-  std::cout<<"inside Largest_Weighted_First before clearing vectors";
+ // std::cout<<"inside Largest_Weighted_First before clearing vectors";
 // check for bandwidth if different bandwidh and genealization of Ru allocation used
 // auto a=dataStaPair.begin();
 // auto b=powerLevel.begin();
@@ -800,7 +805,7 @@ for(int i=0;i<count;i++){
 int countt=0;
 
 
- std::cout<<"inside Largest_Weighted_First before calculating (loop)";
+ std::cout<<"\ninside Largest_Weighted_First before calculating (loop)";
 
 // while(a!=dataStaPair.end() || b!=powerLevel.end() || c!=QosType.end()){
 //   //get type of application and calucate what is the  Pr {W i > T i } £ d i
@@ -913,7 +918,7 @@ std::cout<<"\n After While Loop in LWDF";
 std::cout<<"\n Before dataStaPair1 Loop fofr finalStaPairIndex";
 int zz = dataStaPair1.size();
 std::cout<<"\n"<<zz;
-int i=0;
+//int i=0;
 
 for(int x=0;x<zz;x++){
 
@@ -928,7 +933,7 @@ for(int x=0;x<zz;x++)
   std::cout<<"\n  \n data to be inserted finalStaPairIndexnal------"<<dataStaPair1[x].first<<"count------value"<<countt;
   finalStaPairIndex.push_back(std::make_pair(dataStaPair1[x].first,countt));
   //zz--;
-  i++;
+  //i++;
   countt++;
 }
 
@@ -941,14 +946,16 @@ for(int x=0;x<zz;x++)
 //void insertionSort(int arr[], int n)  
 //{  
 std::cout<<"\n \n Before Sorting";
+
 int n=finalStaPairIndex.size();
+std::cout<<"\n finalStaPairIndex Size"<<n;
     int counter, key, counter1;  
-    for (counter = 1; i < n; i++) 
+    for (counter = 1; counter < n; counter++) 
     {  
         key = finalStaPairIndex[counter].first;  
         counter1 = counter - 1;  
         std::cout<<"\n \n inside insertion sort";
-        /* Move elements of arr[0..i-1], that are  
+        /* Move elements of arr[0..i-s1], that are  
         greater than key, to one position ahead  
         of their current position */
         while (counter1 >= 0 && finalStaPairIndex[counter1].first < key) 
@@ -964,7 +971,7 @@ int n=finalStaPairIndex.size();
 int xyz=finalStaPairIndex.size();
 for(int x=0;x<xyz;x++){
 
-  std::cout<<"\n  \n finalStaPairIndex data  ------"<<finalStaPairIndex[xyz].first<<"------ index-------"<<finalStaPairIndex[xyz].second;
+  std::cout<<"\n  \n finalStaPairIndex data  ------"<<finalStaPairIndex[x].first<<"------ index-------"<<finalStaPairIndex[x].second;
 }
 
 
@@ -991,6 +998,7 @@ int noOfSTA=finalStaPairIndex.size();
 int temp2=noOfSTA;
 
 std::cout<<"\n \n Before RuAlloc Call ";
+finalRUAlloc.clear();
 finalRUAlloc=RuAlloc(noOfSTA); 
 mappedRuAllocated.clear();
 std::cout<<"\n \n Before Mapped RU LOOP Call ";
@@ -1009,7 +1017,7 @@ switch(finalRUAlloc[i]){
   case 484: mappedRuAllocated.push_back(HeRu::RU_484_TONE);
            break;
   }
-  std::cout<<"Mapping============================="<<mappedRuAllocated[i]<<"\n";
+  std::cout<<"\nMapping---------------"<<mappedRuAllocated[i]<<"\n";
 }
 
 std::cout<<"\nmapping done\n";
@@ -1038,19 +1046,24 @@ std::cout<<"\nmapping done\n";
 
 //STA WIth Decreasing order.
 //std::cout<<"\n \n Before Sorting based Mac48Address and store in staAllocated1 value of temp=="<<temp2;
-int count1=0;
+//int count1=0;
+int temp3=0;
 staAllocated1.clear();
 while(temp2){
   auto startItt = m_staInfo.begin();
-      for(int i=0;i<noOfSTA;i++){
-        if(finalStaPairIndex[i].second==count1){
-          staAllocated1.push_back(*startItt);
-          count1++;
+ int dd = finalStaPairIndex[temp3].second;
+      for(int i=0;i<=dd;i++){
+        // if(finalStaPairIndex[i].second==count1){
+        //   staAllocated1.push_back(*startItt);
+        //   count1++;
 
-        }
+        //}
         startItt++;
         //break;
       }
+      staAllocated1.push_back(*startItt);
+      temp3++;
+
       temp2--;
 
 }
@@ -1069,7 +1082,7 @@ std::cout<<"\n \n After Sorting based Mac48Address and store in staAllocated1"<<
 
 // len=finalRUAlloc.size();
 // ;
-//   }
+//   }finalStaPairIndex
 // }
 
   
@@ -1101,9 +1114,9 @@ RrOfdmaManager::ComputeDlOfdmaInfo (void)
 
   // compute how many stations can be granted an RU and the RU size
   std::size_t nRusAssigned = m_staInfo.size ();
-std::cout<<"m_sta_info size: ComputeDlOfdmaInfo "<<m_staInfo.size ()<<"\n";
+std::cout<<"\n m_sta_info size: ComputeDlOfdmaInfo "<<m_staInfo.size ()<<"\n";
   
-
+std::cout<<"\n\n Inside DlOfdmaInfo v_dataStaPair size-------"<<v_dataStaPair.size();
 
 
 
@@ -1112,7 +1125,7 @@ HeRu::RuType ruType ;
 
 if(v_dataStaPair.size()>1){
   //call your function
-  
+  std::cout<<"\nBefore  Largest_Weighted_First in ComputeDlOfdmaInfo\n";
 Largest_Weighted_First();
   std::cout<<"\n Largest_Weighted_First return\n";
 
@@ -1233,10 +1246,10 @@ std::cout<<"\n before Intilaizing DlOfdmaInfo dlOfdmaInfo\n";
                      ru = {true, mappedRuAllocated[i],ru106};
                    break;
           case HeRu::RU_242_TONE: ru242++;
-                    ru = {true, mappedRuAllocated[i],ru242};
+                     ru = {true, mappedRuAllocated[i],ru242};
                    break;
           case HeRu::RU_484_TONE: ru484++;
-                    ru = {true, mappedRuAllocated[i],ru484};
+                     ru = {true, mappedRuAllocated[i],ru484};
                    break;
         default: break;
           }
